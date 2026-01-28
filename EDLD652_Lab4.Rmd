@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = "hide")
 options(repos=c(CRAN="https://cran.r-project.org"))
 ```
-
+**Lab Setup**
 ```{r}
 library(tidyverse)
 library(palmerpenguins)
@@ -22,14 +22,36 @@ library(remotes)
 library(gghighlight)
 library(ggplot2)
 ```
-
+**1.1**
 ```{r}
 data(penguins)
 summary(penguins)
-ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+
+LengthxBill1 <- ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Bill Length vs. Bill Depth by Species", x = "Bill Length", y = "Bill Depth") + scale_color_manual(values = c("Adelie" = "blue", "Chinstrap" = "red", "Gentoo" = "yellow")) + theme_minimal()
+
+LengthxBill1
+
+LengthxBill2 <- ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
 geom_point(size = 3, alpha = 0.7) +
 labs(title = "Scatterplot of Bill Length vs. Bill Depth by Species", x = "Bill Length", y = "Bill Depth") +
-theme_minimal()
+scale_color_brewer(palette = "Set2") + theme_bw()
+LengthxBill2
+
+LengthxBill3 <- ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+geom_point(size = 3, alpha = 0.7) +
+labs(title = "Scatterplot of Bill Length vs. Bill Depth by Species", x = "Bill Length", y = "Bill Depth") +
+scale_color_viridis_d(option = "plasma") + theme_bw()
+LengthxBill3
+
+LengthxBill4 <- ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+geom_point(size = 3, alpha = 0.7) +
+labs(title = "Scatterplot of Bill Length vs. Bill Depth by Species", x = "Bill Length", y = "Bill Depth") +
+scale_color_OkabeIto() + theme_bw()
+LengthxBill4
+
 ```
+**Reflection**
+
+
 
 
