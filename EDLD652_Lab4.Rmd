@@ -103,9 +103,8 @@ Using the "scale_manual_color" approach seems to allow more control here, as you
 
 ```{r}
 penguinscount <- penguins %>% count(year, species)
-penguinscount
 CountxYear1 <- ggplot() +
-  geom_line(data = penguinscount, x = year, y = n, color = species) +   # Draw the line
+  geom_line(data = penguinscount, x = year, y = n, group = species) +   # Draw the line
   geom_point(color = "red", size = 2) +   # Add points for clarity
   labs(
     title = "Penguin Counts by Year and Species",
