@@ -52,7 +52,7 @@ LengthxBill4
 
 ```
 **Reflection**
-Out of the four color pallettes I tried, I think the first, LengthXBill1, is the best for this scenario. The three colors I chose for this plot are recommended by the readings for the course to be compatible with all forms of color blindness.  
+Out of the four color palettes I tried, I think the first, LengthXBill1, is the best for this scenario. The three colors I chose for this plot are recommended by the readings for the course to be compatible with all forms of color blindness.  
 
 **1.2** Create a boxplot of body mass by island. Use a colorblind-safe palette from ColorBrewer.
 ```{r}
@@ -131,7 +131,8 @@ Adding shape can help improve accessibility by increasing the distinction betwee
 # Part 5: Avoiding Common Problems
 **5.1** Create an example showing the “too many colors” problem, then fix it using selective highlighting and labels with geom_text_repel().
 ```{r}
-
+FlipperxBillBad <- ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm, color = bill_length_mm)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Flipper Length vs. Bill Length by Species", x = "Flipper Length", y = "Bill Length") + scale_color_manual("rainbow") + theme_minimal()
+FlipperxBillBad
 ```
 
 
