@@ -22,6 +22,7 @@ library(remotes)
 library(gghighlight)
 library(ggplot2)
 ```
+# Part 1: Distinguishing Groups (Qualitative Color)
 **1.1** Create a scatterplot showing bill length vs. bill depth, colored by species. Compare at least three different qualitative palettes:
 ```{r}
 data(penguins)
@@ -55,8 +56,29 @@ Out of the four color pallettes I tried, I think the first, LengthXBill1, is the
 
 **1.2** Create a boxplot of body mass by island. Use a colorblind-safe palette from ColorBrewer.
 ```{r}
+RColorBrewer::display.brewer.all(colorblindFriendly = TRUE)
+BodymassxIsland <- ggplot(data = penguins, aes(x = island, y = body_mass_g, col = island)) + labs(title = "Body Mass by Island", x = "Island", y = "Body Mass") + geom_boxplot() + scale_color_brewer(palette = "Dark2")
+BodymassxIsland
+cvd_grid(BodymassxIsland)
+```
+# Part 2: Representing Data Values (Sequential & Diverging)
+```{r}
+LengthxBodyMass1 <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = bill_length_mm)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Flipper Length vs. Body Mass by Bill Length", x = "Flipper Length", y = "Body Mass") + scale_color_viridis_c(option = "inferno") + theme_minimal()
+LengthxBodyMass1
+
+LengthxBodyMass2 <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = bill_length_mm)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Flipper Length vs. Body Mass by Bill Length", x = "Flipper Length", y = "Body Mass") + scale_color_distiller(palette = "YlOrRd") + theme_minimal()
+LengthxBodyMass2
+
+LengthxBodyMass3 <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = bill_length_mm)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Flipper Length vs. Body Mass by Bill Length", x = "Flipper Length", y = "Body Mass") + scale_color_continuous_sequential(palette = "Heat") + theme_minimal()
+LengthxBodyMass3
+```
+**Reflection**
+I think the palette that makes it easiest to see the differences in bill length is the Inferno option, because the contrast is the greatest in that palette out of the three options.
+
+```{r}
 
 ```
+
 
 
 
