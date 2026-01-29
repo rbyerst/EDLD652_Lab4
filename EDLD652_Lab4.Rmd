@@ -75,8 +75,17 @@ LengthxBodyMass3
 **Reflection**
 I think the palette that makes it easiest to see the differences in bill length is the Inferno option, because the contrast is the greatest in that palette out of the three options.
 
+**2.2** Calculate mean body mass by species and sex. Create a heatmap using geom_tile() with a diverging color scale.
 ```{r}
+penguin_summary <- penguins %>%
+  drop_na(sex) %>%
+  group_by(species, sex) %>%
+  summarize(mean_mass = mean(body_mass_g), .groups = "drop")
 
+SpeciesHeatmap <- ggplot(penguin_summary, aes(species, sex)) +
+  geom_tile(aes(fill = mean_mass), colour = "white") + labs(title = "Heatmap of Mean Body Mass", x = "Species", y = "Sex") +
+  scale_fill_distiller(palette = "RdBu", direction = -1) +geom_text(aes(label = mean_mass))
+SpeciesHeatmap
 ```
 
 
