@@ -22,12 +22,12 @@ library(remotes)
 library(gghighlight)
 library(ggplot2)
 ```
-**1.1**
+**1.1** Create a scatterplot showing bill length vs. bill depth, colored by species. Compare at least three different qualitative palettes:
 ```{r}
 data(penguins)
 summary(penguins)
 
-LengthxBill1 <- ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Bill Length vs. Bill Depth by Species", x = "Bill Length", y = "Bill Depth") + scale_color_manual(values = c("Adelie" = "blue", "Chinstrap" = "red", "Gentoo" = "yellow")) + theme_minimal()
+LengthxBill1 <- ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Bill Length vs. Bill Depth by Species", x = "Bill Length", y = "Bill Depth") + scale_color_manual(values = c("Adelie" = "orange", "Chinstrap" = "blue", "Gentoo" = "#CC79A7")) + theme_minimal()
 
 LengthxBill1
 
@@ -51,6 +51,13 @@ LengthxBill4
 
 ```
 **Reflection**
+Out of the four color pallettes I tried, I think the first, LengthXBill1, is the best for this scenario. The three colors I chose for this plot are recommended by the readings for the course to be compatible with all forms of color blindness.  
+
+**1.2** Create a boxplot of body mass by island. Use a colorblind-safe palette from ColorBrewer.
+```{r}
+
+```
+
 
 
 
