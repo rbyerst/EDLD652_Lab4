@@ -87,6 +87,37 @@ SpeciesHeatmap <- ggplot(penguin_summary, aes(species, sex)) +
   scale_fill_distiller(palette = "RdBu", direction = -1) +geom_text(aes(label = mean_mass))
 SpeciesHeatmap
 ```
+# Part 3: Highlighting Specific Points
+**3.1** Create a scatterplot of flipper length vs. bill length. Highlight only Gentoo penguins in a bright color; show all others in gray.
+```{r}
+FlipperxBill <- ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm, color = species)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Flipper Length vs. Bill Length by Species", x = "Flipper Length", y = "Bill Length") + scale_color_manual(values = c("Adelie" = "gray", "Chinstrap" = "gray", "Gentoo" = "#CC79A7")) + theme_minimal()
+FlipperxBill
+
+FlipperxBill2 <- ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm, color = species)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Flipper Length vs. Bill Length by Species", x = "Flipper Length", y = "Bill Length") + gghighlight(species == "Gentoo") + theme_minimal()
+FlipperxBill2
+```
+**Reflection** 
+Using the "scale_manual_color" approach seems to allow more control here, as you could be very specific with which color you want to ouse for the highlighting. 
+
+**3.2** Create a line plot showing penguin counts by year and species. Highlight only Adelie penguins while keeping other species visible in gray.
+
+```{r}
+penguinscount <- penguins %>% count(year, species)
+penguinscount
+CountxYear1 <- ggplot() +
+  geom_line(data = penguinscount, x = year, y = n, color = species) +   # Draw the line
+  geom_point(color = "red", size = 2) +   # Add points for clarity
+  labs(
+    title = "Penguin Counts by Year and Species",
+    x = "Year",
+    y = "Count"
+  ) +
+  theme_minimal()  # Clean theme
+CountxYear1
+
+```
+
+
 
 
 
