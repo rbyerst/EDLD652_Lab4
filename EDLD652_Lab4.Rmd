@@ -139,7 +139,24 @@ FlipperxBillGood <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_
                      values=c('orange', 'gray', 'gray')) + theme_minimal()
 FlipperxBillGood
 ```
-**5.2** 
+**5.2** Create a bar chart of penguin counts by species using:
+A rainbow palette (to demonstrate why it’s problematic)
+A proper qualitative palette (to show the better approach)
+If you have colorblindr, compare both under colorblind simulation
+```{r}
+penguinscount
+penguinscount <- as.data.frame(penguinscount)
+CountxSpecies <- ggplot(penguinscount, aes(x = species, y = n, fill = species)) +
+  geom_bar(stat="identity") + theme_minimal() + labs(title = "Penguin Count by Species", x = "Species", y = "Cost") +  scale_fill_manual(name='Species', labels=c('Adelie', 'Chinstrap', 'Gentoo'),
+                     values=c('red', 'orange', 'yellow'))
+CountxSpecies
+
+CountxSpeciesBetter <- ggplot(penguinscount, aes(x = species, y = n, fill = species)) +
+  geom_bar(stat="identity") + theme_minimal() + labs(title = "Penguin Count by Species", x = "Species", y = "Cost") + scale_fill_brewer(palette = "Dark2")
+CountxSpeciesBetter
+cvd_grid(CountxSpeciesBetter)
+```
+
 
 
 
