@@ -137,8 +137,12 @@ summary(penguins)
 FlipperxBillBad1 <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = flipper_length_mm)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Bill Length vs. Flipper Length", x = "Bill Length", y = "Flipper Length") + scale_color_gradientn(colors = c("red", "orange", "yellow", "green", "blue", "light blue", "violet", "pink", "white")) + theme_dark()
 FlipperxBillBad1
 
-FlipperxBillGood <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Bill Length vs. Flipper Length", x = "Bill Length", y = "Flipper Length") + scale_color_manual(name='Species', labels=c('Adelie', 'Chinstrap', 'Gentoo'),
-                     values=c('blue', 'gray', 'gray')) + theme_minimal()
+HighlightFlippers <- penguins %>% filter(flipper_length_mm > 225, bill_length_mm > 55)
+FlipperxBillGood <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Bill Length vs. Flipper Length", x = "Bill Length", y = "Flipper Length") + geom_point(data = HighlightFlippers,
+size = 3,
+color = "red") + geom_text_repel(data = HighlightFlippers,
+aes(label = paste(species)),
+size = 4) + theme_minimal()
 FlipperxBillGood
 ```
 **5.2** Create a bar chart of penguin counts by species using:
