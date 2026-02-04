@@ -1,8 +1,10 @@
 ---
 title: "Untitled"
 author: "Rachel Byers"
-date: "2026-01-28"
-output: html_document
+date: "2026-02-03"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -106,7 +108,7 @@ penguinscount <- penguins %>% count(year, species)
 penguinscount <- as.data.frame(penguinscount)
 penguinscount
 CountxYear1 <- ggplot(penguinscount, aes(x = year, y = n)) + 
-  geom_line(aes(color=species, size = 1.5))+
+  geom_line(aes(color=species))+
   scale_color_manual(name='Species', labels=c('Adelie', 'Chinstrap', 'Gentoo'),
                      values=c('red', 'gray', 'gray'))+ 
   labs(title = "Penguin Count by Year", x = "Year", y = "Count")+
@@ -136,7 +138,7 @@ FlipperxBillBad1 <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_
 FlipperxBillBad1
 
 FlipperxBillGood <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point(size = 3, alpha = 0.7) + labs(title = "Scatterplot of Bill Length vs. Flipper Length", x = "Bill Length", y = "Flipper Length") + scale_color_manual(name='Species', labels=c('Adelie', 'Chinstrap', 'Gentoo'),
-                     values=c('orange', 'gray', 'gray')) + theme_minimal()
+                     values=c('blue', 'gray', 'gray')) + theme_minimal()
 FlipperxBillGood
 ```
 **5.2** Create a bar chart of penguin counts by species using:
