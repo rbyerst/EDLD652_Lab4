@@ -1,0 +1,195 @@
+---
+title: "Lab 5"
+author: "Rachel Byers"
+date: "2026-02-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = "hide")
+options(repos=c(CRAN="https://cran.r-project.org")
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r packages}
+library(tidyverse)
+library(gapminder)
+library(ggrepel)
+library(gghighlight)
+library(patchwork)
+library(ggforce)
+```
+# Part 1: Ordering Categories Effectively
+**Task 1.1** Using the gapminder dataset filtered to year 2007 and continent “Americas”, create a dot plot showing GDP per capita by country.
+
+Requirements:
+
+Filter to 2007 and Americas
+Order countries by GDP per capita (lowest to highest)
+Use geom_point() for a Cleveland dot plot
+Place country names on the y-axis
+Format GDP with scales::dollar()
+Add appropriate title and labels
+
+```{r gapminder, echo=FALSE}
+as.data.frame(gapminder)
+summary(gapminder)
+gapminder2007 <- gapminder %>%
+filter(year == 2007, continent == "Americas")
+gapminder2007
+gapminder2007 %>%
+mutate(country = fct_reorder(country, gdpPercap, .desc = TRUE)) %>%
+ggplot(aes(x = gdpPercap, y = country, scales::dollar(gdpPercap))) +
+geom_point(size = 4, color = "#0072B2") +
+labs(x = "GDP Per Capita",
+y = "Country",
+title = "GDP Per Capita by Country")
+```
+**Task 1.2**
+Convert your dot plot from Task 1.1 into a lollipop chart by adding line segments from 0 to each point.
+
+Requirements:
+
+Use geom_segment() with gray lines
+Keep colored points from Task 1.1
+Maintain the same ordering and labels
+Question: In 1-2 sentences, explain why ordering by value is more effective than alphabetical ordering for this visualization.
+```{r}
+gapminder2007 %>%
+mutate(country = fct_reorder(country, gdpPercap, .desc = TRUE)) %>%
+ggplot(aes(x = gdpPercap, y = country, scales::dollar(gdpPercap))) +
+geom_point(size = 4, color = "#0072B2") +
+  geom_segment(aes(x = 0, xend = gdpPercap,
+y = country, yend = country),
+color = "gray") +
+labs(x = "GDP Per Capita",
+y = "Country",
+title = "GDP Per Capita by Country")
+```
+Ordering by value is more effective because it immediately gives the reader useful information. It makes it much easier to find important points on the plot.
+
+# Part 2: Theme Customization
+**Task 2.1**
+Creat a plot showing life expectancy over time for countries in the Americas.
+
+Requirements:
+
+Filter gapminder to Americas only
+Create line plot with year on x-axis and lifeExp on y-axis
+Use geom_line() with aes(group = country)
+Color all lines the same (your choice of color)
+Apply theme_minimal()
+Add title: “Life Expectancy in the Americas”
+```{r}
+gapminder %>% filter(continent == "Americas") %>%
+ggplot(aes(x = year, y = lifeExp, group = country)) +
+geom_line(size = 1, color = "#0072B2") +
+labs(x = "Year",
+y = "Life Expectancy",
+title = "Life Expectancy in the Americas") + theme_minimal()
+```
+**Task 2.2**
+Customize the theme of your plot from Task 2.1 by modifying at least 5 theme elements.
+
+Requirements must include:
+
+Plot title (size, face, color)
+Axis titles (size or face)
+Panel grid (modify or remove major/minor)
+Plot or panel background color
+Legend position (if you add one)
+Make intentional design choices that improve readability.
+```{r}
+gapminder %>% filter(continent == "Americas") %>%
+ggplot(aes(x = year, y = lifeExp, group = country)) +
+geom_line(size = 1, color = "#0072B2") +
+labs(x = "Year",
+y = "Life Expectancy",
+title = "Life Expectancy in the Americas") + theme_minimal() +
+  theme( 
+  plot.title = element_text(size = 20, face = "bold", color = "black"),
+axis.title = element_text(size = 14, face = "bold"),
+axis.text = element_text(size = 12, color = "gray30"),
+panel.grid.major = element_line(color = "gray", size = 0.5),
+panel.grid.minor = element_line(color = "gray80", size = 0.25))
+```
+**Task 2.3**
+Create a custom theme function called theme_yourname() that encapsulates your customizations from Task 2.2.
+
+Requirements:
+
+Include a base_size parameter with default = 14
+Include your 5+ theme customizations from Task 2.2
+Test it by applying to your plot
+```{r}
+theme_rachelbyers <- function(base_size = 14) {
+  theme_minimal(base_size = base_size) +
+  theme(
+    plot.title = element_text(size = 20, face = "bold", color = "black"),
+axis.title = element_text(size = 14, face = "bold"),
+axis.text = element_text(size = 12, color = "gray30"),
+panel.grid.major = element_line(color = "gray", size = 0.5),
+panel.grid.minor = element_line(color = "gray80", size = 0.25)
+  )
+}
+gapminder %>% filter(continent == "Americas") %>%
+ggplot(aes(x = year, y = lifeExp, group = country)) +
+geom_line(size = 1, color = "#0072B2") +
+labs(x = "Year",
+y = "Life Expectancy",
+title = "Life Expectancy in the Americas") + theme_minimal() +
+  theme_rachelbyers()
+```
+# Part 3: Annotations
+**Task 3.1**
+Using your Americas life expectancy plot from Task 2.1, add labels to identify specific countries using gghighlight.
+
+Requirements:
+
+Highlight only countries with life expectancy > 75 years in 2007
+Use gghighlight() with use_direct_label = TRUE
+Keep your custom theme from Task 2.3
+```{r}
+gapminder %>% filter(continent == "Americas") %>%
+ggplot(aes(x = year, y = lifeExp, group = country)) +
+geom_line(size = 1, color = "#0072B2") +
+labs(x = "Year",
+y = "Life Expectancy",
+title = "Life Expectancy in the Americas") + theme_minimal() +
+    gghighlight(max(lifeExp) > 75, use_direct_label = TRUE) + theme_rachelbyers()
+```
+**Task 3.2**
+Create an alternative version using ggforce::geom_mark_ellipse() instead of gghighlight to highlight outliers.
+
+Requirements:
+
+Start with the same base Americas plot
+Identify 2-3 countries with notably low life expectancy (you can see these on the lower part of the plot)
+Use geom_mark_ellipse() to draw an ellipse around these countries
+Add a description label to the ellipse
+Hint: You’ll need to filter the data to just those countries for geom_mark_ellipse()
+
+Question: Which annotation method (Task 3.1 with gghighlight or Task 3.2 with geom_mark_ellipse) do you prefer for this data and why? Write 2-3 sentences.
+```{r}
+gapminder %>% filter(continent == "Americas") %>%
+ggplot(aes(x = year, y = lifeExp, group = country)) +
+geom_line(size = 1, color = "gray") +
+labs(x = "Year",
+y = "Life Expectancy",
+title = "Life Expectancy in the Americas") + theme_minimal() +
+    geom_mark_ellipse(data = gapminder %>% 
+                    filter(max(lifeExp) < 70),
+                    expand = unit(0.5, "mm"))
+```
+
+
+
+
+
+
+
